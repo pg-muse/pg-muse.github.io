@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MuseDrive Callback</title>
+<style>
+body { font-family: system-ui, sans-serif; margin: 2rem auto; max-width: 640px; padding: 0 1rem; line-height: 1.5; }
+code { background: #f0f0f0; padding: 0.2rem 0.4rem; word-break: break-all; }
+button { padding: 0.5rem 1rem; font-size: 1rem; cursor: pointer; }
+</style>
+</head>
+<body>
+<main>
+<h1>MuseDrive Callback</h1>
+<p>Authorization finished. Copy the code below and paste it back into MuseDrive to complete sign-in.</p>
+<p><strong>Code:</strong> <code id="code"></code></p>
+<p><strong>State:</strong> <code id="state"></code></p>
+<p><button id="copy" type="button">Copy code</button></p>
+<p id="status"></p>
+</main>
+<script>
+const params = new URLSearchParams(window.location.search);
+const code = params.get("code") || "";
+const state = params.get("state") || "";
+document.getElementById("code").textContent = code || "(no code returned)";
+document.getElementById("state").textContent = state || "(none)";
+document.getElementById("copy").addEventListener("click", async () => {
+  try {
+    await navigator.clipboard.writeText(code);
+    document.getElementById("status").textContent = "Code copied.";
+  } catch (e) {
+    document.getElementById("status").textContent = "Copy failed - please select and copy the code manually.";
+  }
+});
+</script>
+</body>
+</html>
